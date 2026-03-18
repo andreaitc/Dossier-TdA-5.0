@@ -1,0 +1,39 @@
+{
+  "name": "copy-of-dossier-3.8",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx server.ts",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "^1.45.0",
+    "@imgly/background-removal": "^1.7.0",
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1",
+    "html-to-image": "1.11.11",
+    "jspdf": "2.5.1",
+    "lucide-react": "^0.577.0",
+    "mammoth": "1.6.0",
+    "motion": "^12.38.0",
+    "pdfjs-dist": "4.0.379",
+    "pptxgenjs": "3.12.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "tsx": "^4.21.0"
+  },
+  "overrides": {
+    "node-domexception": "npm:@types/node@^22.14.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^8.0.0"
+  }
+}

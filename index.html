@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea Dossier Teatro dell'Argine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Open Sans', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif'],
+                        anton: ['Anton', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&family=Open+Sans:wght@400&family=Anton&display=swap" rel="stylesheet" crossorigin="anonymous">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #e5e7eb;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+        .anton {
+            font-family: 'Anton', sans-serif;
+        }
+        .montserrat-bold {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        .montserrat-semibold {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        .montserrat-medium {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+        }
+        .montserrat-light {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+        }
+        .open-sans {
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        /* Custom spacing for design specs */
+        .spacing-200 {
+            letter-spacing: 0.2em;
+        }
+        .spacing-150 {
+            letter-spacing: 0.15em;
+        }
+
+        /* Definizione pagina 16:9 Landscape (338.67mm x 190.5mm) */
+        .page {
+            width: 338.67mm;
+            height: 190.5mm;
+            max-height: 190.5mm;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            background: white;
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .page-ui-preview {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .page-wrapper {
+            padding: 0;
+            margin: 0;
+            display: block;
+            width: 338.67mm;
+            height: 190.5mm;
+            max-height: 190.5mm;
+            overflow: hidden;
+        }
+
+        .preview-gap .page-wrapper {
+            margin-bottom: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        /* Hide scrollbars for cleaner PDF and UI export */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .style-tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+        .style-tooltip {
+            visibility: hidden;
+            width: 180px; /* Increased width for larger font */
+            background-color: #1e293b;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 9999;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.15s ease-in-out;
+            pointer-events: none;
+            font-size: 13px; /* Increased from 10px */
+            font-weight: 600;
+            line-height: 1.4;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
+            white-space: normal;
+        }
+        .style-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+        .style-tooltip-container:hover .style-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transition-delay: 50ms;
+        }
+
+        .no-print {
+            display: block;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

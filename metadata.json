@@ -1,0 +1,8 @@
+{
+  "name": "DOSSIER 5.0",
+  "description": "A specialized design tool to create professional A4 horizontal documents with a unique split-layout (1/5 sidebar, 4/5 main content). Uses AI to summarize content and generate cover images based on your style.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
