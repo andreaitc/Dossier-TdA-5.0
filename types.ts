@@ -61,9 +61,9 @@ export interface AppState {
 
 export enum Step {
   Selection = 'selection',
+  Content = 'content',
   Setup = 'setup',
   Style = 'style',
-  Content = 'content',
   Editor = 'editor',
   Preview = 'preview',
   PrintPreview = 'printPreview'

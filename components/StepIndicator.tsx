@@ -9,9 +9,9 @@ interface StepIndicatorProps {
 
 const steps = [
   { id: Step.Selection, label: 'Inizio' },
+  { id: Step.Content, label: 'Input' },
   { id: Step.Setup, label: 'Copertina' },
   { id: Step.Style, label: 'Design' },
-  { id: Step.Content, label: 'Input' },
   { id: Step.Editor, label: 'Revisione' },
   { id: Step.Preview, label: 'FINE' },
 ];

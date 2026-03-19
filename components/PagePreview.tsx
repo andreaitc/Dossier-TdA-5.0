@@ -51,8 +51,8 @@ const PagePreview: React.FC<PagePreviewProps> = ({
   const isGrazie = chapter?.id === 'chapter-thanks' || chapter?.title.toUpperCase() === 'GRAZIE';
 
   const getContentFontSize = () => {
-    // 14px leading 1.5 as requested.
-    return 'text-[14px] open-sans font-normal';
+    // 16px leading 1.5 (leading-normal) as requested.
+    return 'text-[16px] open-sans font-normal leading-normal';
   };
 
   const headerPaddingTop = '200px';
@@ -237,7 +237,7 @@ const PagePreview: React.FC<PagePreviewProps> = ({
             
             {/* Chapter Content Text - with higher z-index to stay above image if overlapping */}
             <div 
-              className={`w-full max-h-full overflow-y-auto no-scrollbar select-text cursor-text text-justify break-words whitespace-pre-line pr-4 relative z-10 ${getContentFontSize()}`}
+              className={`w-full max-h-full overflow-y-auto no-scrollbar select-text cursor-text text-justify hyphens-auto break-words whitespace-pre-line pr-4 relative z-10 ${getContentFontSize()}`}
               dangerouslySetInnerHTML={{ __html: chapter?.content || "" }}
             />
             {isGrazie && !chapter?.content && (

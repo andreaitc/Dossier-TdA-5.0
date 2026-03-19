@@ -27,18 +27,33 @@ async function callGeminiWithRetry<T>(fn: () => Promise<T>, maxRetries = 3): Pro
   throw lastError;
 }
 
-export const CURRICULUM_TDA = `Fondata negli anni Novanta e composta oggi da circa trenta professionisti, la <strong>Compagnia Teatro dell'Argine</strong> sviluppa progetti artistici rivolti all'intera comunità. La sua attività spazia dalla produzione teatrale alla formazione, con un’attenzione particolare al sociale, alla didattica e alla gestione di spazi culturali. 
+export const CURRICULUM_TDA = `Fondata negli anni Novanta e composta oggi da circa trenta professionisti, la <strong>Compagnia Teatro dell'Argine</strong> sviluppa progetti artistici rivolti all'intera comunità. La sua attività spazia dalla produzione teatrale alla formazione, con un’attenzione particolare al sociale, alla didattica e alla gestione di spazi culturali. Vanta prestigiose collaborazioni con Compagnie, Teatri, Università, Biblioteche, Musei, Carceri, Ospedali, Centri d’accoglienza in Europa, Africa e Sud America. Dal 1998 gestisce alle porte di Bologna l’ITC Teatro, il teatro comunale di San Lazzaro di Savena.
 
-Vanta prestigiose collaborazioni con Compagnie, Teatri, Università, Biblioteche, Musei, Carceri, Ospedali, Centri d’accoglienza in Europa, Africa e Sud America. Dal 1998 gestisce alle porte di Bologna l’ITC Teatro, il teatro comunale di San Lazzaro di Savena. Nel corso degli anni il Teatro dell'Argine è diventato un punto di riferimento in campo nazionale e internazionale non solo sul piano artistico (Premio della Critica 2006, 2015 e 2017, Premio Nico Garrone 2015, Eolo Awards 2018, Premio Rete Critica 2021, Premio Ubu 2011, 2015 e 2021, Max-Brauer Preis 2020 dalla Fondazione Toepfer) ma anche nell'ideazione e realizzazione di progetti in cui il teatro si mette a disposizione di contesti interculturali, sociali, educativi e pedagogici. 
+Nel corso degli anni il Teatro dell'Argine è diventato un punto di riferimento in campo nazionale e internazionale non solo sul piano artistico (Premio della Critica 2006, 2015 e 2017, Premio Nico Garrone 2015, Eolo Awards 2018, Premio Rete Critica 2021, Premio Ubu 2011, 2015 e 2021, Max Brauer Preis 2020 dalla Fondazione Toepfer) ma anche nell'ideazione e realizzazione di progetti in cui il teatro si mette a disposizione di contesti interculturali, sociali, educativi e pedagogici. Dal 2008, il Teatro dell’Argine è riconosciuto dal MiC come impresa di produzione e dal 2025 come Centro di Produzione 250 per l’infanzia e la gioventù.
 
-Dal 2008, il Teatro dell’Argine è riconosciuto dal MiC come impresa di produzione e dal 2025 come Centro di Produzione 250 per l’infanzia e la gioventù. Tra le partnership più importanti segnaliamo aziende come Barilla, Unipol, Hera, Coop Alleanza 3.0; organizzazioni come UNHCR, CISL Emilia-Romagna, CGIL, UIL; fondazioni e associazioni come Fondazione Unipolis, Fondazione Del Monte, Fondazione Marchesini, Fondazione Bartolini, ACRI, Fondazione Fossoli, Associazione tra i Familiari delle Vittime della Strage alla Stazione di Bologna del 2 agosto 1980, ANTEAS, ARCI, ENDAS; enti pubblici come Comune di Bologna, Comune di Bergamo, Comune di San Lazzaro di Savena, Regione Emilia-Romagna, Ministero della Cultura; teatri e istituzioni culturali tra i quali Emilia Romagna Teatro Fondazione, Teatro Comunale di Bologna, Théâtre du Soleil di Parigi, Riksteatern di Stoccolma, Istituzione Bologna Musei – MAMbo, gli Uffizi di Firenze, Mediateca di San Lazzaro di Savena. Infine ha realizzato progetti e performance per Matera Capitale Europea della Cultura 2019 e Brescia Capitale Italiana della Cultura 2023. 
+Tra le partnership più importanti segnaliamo aziende come Barilla, Unipol, Hera, Coop Alleanza 3.0; organizzazioni come UNHCR, CISL Emilia-Romagna, CGIL, UIL; fondazioni e associazioni come Fondazione Unipolis, Fondazione Del Monte, Fondazione Marchesini, Fondazione Bartolini, ACRI, Fondazione Fossoli, Associazione tra i Familiari delle Vittime della Strage alla Stazione di Bologna del 2 agosto 1980, ANTEAS, ARCI, ENDAS; enti pubblici come Comune di Bologna, Comune di Bergamo, Comune di San Lazzaro di Savena, Regione Emilia-Romagna, Ministero della Cultura; teatri e istituzioni culturali tra i quali Emilia Romagna Teatro Fondazione, Teatro Comunale di Bologna, Théâtre du Soleil di Parigi, Riksteatern di Stoccolma, Istituzione Bologna Musei – MAMbo, gli Uffizi di Firenze, Mediateca di San Lazzaro di Savena. Infine ha realizzato progetti e performance per Matera Capitale Europea della Cultura 2019 e Brescia Capitale Italiana della Cultura 2023.
 
-Nel 2017, ha ricevuto la medaglia del Presidente della Repubblica per il progetto Futuri Maestri.`;
+Nel 2017, ha ricevuto la <strong>medaglia del Presidente della Repubblica</strong> per il progetto Futuri Maestri.`;
 
-export const analyzeContent = async (text: string): Promise<Chapter[]> => {
+export const analyzeContent = async (text: string): Promise<{ 
+  chapters: Chapter[], 
+  suggestedTitle: string, 
+  suggestedSubtitle: string,
+  suggestedImageSubject: string,
+  suggestedImageStyle: string
+}> => {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   const prompt = `
     Analizza il testo fornito e organizzalo in un dossier strutturato di esattamente 6 pagine per la Compagnia Teatro dell'Argine.
+    
+    Inoltre, proponi un TITOLO, un SOTTOTITOLO e un'IMMAGINE per la copertina del dossier basandoti sul contenuto seguendo queste regole:
+    - TITOLO: può avere 2, 3, 4 o 5 parole, come ritieni più efficace. Devono essere poetiche, capaci di suggerire, emozionare o divertire.
+    - SOTTOTITOLO: può avere 3, 4, 5, 6 o 7 parole, come ritieni più efficace. Devono descrivere il progetto in modo efficace ma non pedante.
+    - IMMAGINE (Soggetto): Non deve essere didascalico o letterale, ma deve creare una suggestione poetica legata al tema. 
+      Esempio: per un progetto sulla guerra, un giocattolo rotto nel fango è meglio di un esercito.
+    - IMMAGINE (Stile e Tecnica): Devono essere suggeriti dal contesto del progetto.
+      Esempio: per "fantasia al potere" usa fumetto o fiabesco; per "archivio della memoria" usa disegno tecnico vintage o foto d'epoca.
+
     DEVI usare rigorosamente queste categorie come titoli dei capitoli, nell'ordine: 
     1. "COSA" (spiegazione del progetto)
     2. "PER CHI" (target di riferimento)
@@ -49,17 +64,22 @@ export const analyzeContent = async (text: string): Promise<Chapter[]> => {
     
     Per ogni capitolo:
     1. "title": Solo la parola della categoria (es. "COSA").
-    2. "subtitle": Una frase di sintesi potente (max 15 parole).
+    2. "subtitle": Una frase di sintesi potente (può avere 3, 4, 5, 6 o 7 parole).
     3. "keywords": Un array di 4-5 concetti brevi.
     4. "content": Un testo fluido e professionale di circa 150-200 parole basato sul materiale sorgente.
     
     ISTRUZIONE SPECIALE per "CHI SIAMO":
-    Ignora il materiale sorgente e usa esclusivamente questo testo per il "content":
+    Ignora il materiale sorgente e usa ESATTAMENTE questo testo per il "content", PRESERVANDO TUTTI I TAG HTML (come <strong>) e i ritorni a capo (\n\n):
     "${CURRICULUM_TDA.replace(/"/g, "'").replace(/\n/g, "\\n")}"
     Per le "keywords" usa ESATTAMENTE queste: ["Arte", "Comunità", "Progetti", "Bellezza"].
     Crea un sottotitolo coerente.
 
-    Restituisci un array JSON di 6 oggetti.
+    Restituisci un oggetto JSON con:
+    - "suggestedTitle": string
+    - "suggestedSubtitle": string
+    - "suggestedImageSubject": string (descrizione del soggetto suggestivo)
+    - "suggestedImageStyle": string (stile e tecnica suggeriti)
+    - "chapters": array di 6 oggetti capitolo.
   `;
 
   try {
@@ -69,30 +89,54 @@ export const analyzeContent = async (text: string): Promise<Chapter[]> => {
       config: {
         responseMimeType: "application/json",
         responseSchema: {
-          type: Type.ARRAY,
-          items: {
-            type: Type.OBJECT,
-            properties: {
-              title: { type: Type.STRING },
-              subtitle: { type: Type.STRING },
-              keywords: { type: Type.ARRAY, items: { type: Type.STRING } },
-              content: { type: Type.STRING }
-            },
-            required: ["title", "subtitle", "keywords", "content"]
-          }
+          type: Type.OBJECT,
+          properties: {
+            suggestedTitle: { type: Type.STRING, description: "Titolo di 2, 3, 4 o 5 parole poetiche e suggestive" },
+            suggestedSubtitle: { type: Type.STRING, description: "Sottotitolo di 3, 4, 5, 6 o 7 parole descrittive ma non pedanti" },
+            suggestedImageSubject: { type: Type.STRING, description: "Soggetto suggestivo e non didascalico" },
+            suggestedImageStyle: { type: Type.STRING, description: "Stile e tecnica coerenti con il tema" },
+            chapters: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  title: { type: Type.STRING },
+                  subtitle: { type: Type.STRING, description: "Sottotitolo di 3, 4, 5, 6 o 7 parole descrittive" },
+                  keywords: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  content: { type: Type.STRING }
+                },
+                required: ["title", "subtitle", "keywords", "content"]
+              }
+            }
+          },
+          required: ["suggestedTitle", "suggestedSubtitle", "suggestedImageSubject", "suggestedImageStyle", "chapters"]
         }
       }
     }));
 
-    const data = JSON.parse(response.text || "[]");
+    const data = JSON.parse(response.text || "{}");
     const timestamp = Date.now();
-    return data.map((item: any, index: number) => ({
+    const chapters = (data.chapters || []).map((item: any, index: number) => ({
       ...item,
       id: `ai-ch-${timestamp}-${index}-${Math.random().toString(36).substr(2, 9)}`
     }));
+
+    return {
+      chapters,
+      suggestedTitle: data.suggestedTitle || "",
+      suggestedSubtitle: data.suggestedSubtitle || "",
+      suggestedImageSubject: data.suggestedImageSubject || "",
+      suggestedImageStyle: data.suggestedImageStyle || ""
+    };
   } catch (e) {
     console.error("AI Analyze Error", e);
-    return [];
+    return { 
+      chapters: [], 
+      suggestedTitle: "", 
+      suggestedSubtitle: "",
+      suggestedImageSubject: "",
+      suggestedImageStyle: ""
+    };
   }
 };
 
@@ -100,7 +144,7 @@ export const generateMetaFromContent = async (content: string): Promise<{ subtit
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   const prompt = `
     Analizza il seguente testo e genera:
-    1. Un sottotitolo di sintesi potente (max 15 parole).
+    1. Un sottotitolo di sintesi potente (può avere 3, 4, 5, 6 o 7 parole).
     2. Un array di 4-5 parole chiave o concetti brevi.
     
     Restituisci solo un oggetto JSON con i campi "subtitle" e "keywords".
@@ -115,7 +159,7 @@ export const generateMetaFromContent = async (content: string): Promise<{ subtit
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            subtitle: { type: Type.STRING },
+            subtitle: { type: Type.STRING, description: "Sottotitolo di 3, 4, 5, 6 o 7 parole descrittive" },
             keywords: { type: Type.ARRAY, items: { type: Type.STRING } }
           },
           required: ["subtitle", "keywords"]
